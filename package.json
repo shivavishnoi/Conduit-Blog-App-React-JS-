@@ -1,0 +1,20 @@
+{
+  "name": "conduit-blog-app-react-js-",
+  "version": "1.0.0",
+  "description": "A blog application which allows Users to Register/Login into the app and Read and Articles on various topics.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shivavishnoi/Conduit-Blog-App-React-JS-.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shivavishnoi/Conduit-Blog-App-React-JS-/issues"
+  },
+  "homepage": "https://github.com/shivavishnoi/Conduit-Blog-App-React-JS-#readme"
+}
