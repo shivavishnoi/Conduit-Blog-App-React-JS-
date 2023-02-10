@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import ArticleCard from './ArticleCard';
 import Pagination from './Pagination';
+import { Bars } from 'react-loader-spinner';
 export default function FeedList(props) {
   return (
     <>
@@ -18,7 +19,17 @@ export default function FeedList(props) {
           />
         </div>
       ) : (
-        <span>loading...</span>
+        <div className="flex justify-center">
+          <Bars
+            height="80"
+            width="80"
+            color="#4fa94d"
+            ariaLabel="bars-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+          />
+        </div>
       )}
     </>
   );

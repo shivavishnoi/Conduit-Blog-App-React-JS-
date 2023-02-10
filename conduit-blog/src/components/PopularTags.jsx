@@ -1,14 +1,30 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Bars } from 'react-loader-spinner';
 export default function PopularTags(props) {
   const [tagsData, setTagsData] = useState(null);
+  const [error, setError] = useState('');
   useEffect(() => {
     fetch('https://api.realworld.io/api/tags')
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(res.status);
+        }
+        return res.json();
+      })
       .then((data) => {
         setTagsData(data);
+      })
+      .catch((err) => {
+        setError('Not able to fetch required data');
       });
   }, []);
+  if (error) {
+    return (
+      <div className="text-center">
+        <p>{error}</p>
+      </div>
+    );
+  }
   return (
     <div className="flex wrap padding-2">
       {tagsData ? (
@@ -22,7 +38,17 @@ export default function PopularTags(props) {
           </span>
         ))
       ) : (
-        <span>Loading...</span>
+        <div className="flex justify-center">
+          <Bars
+            height="20"
+            width="20"
+            color="#4fa94d"
+            ariaLabel="bars-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+          />
+        </div>
       )}
     </div>
   );

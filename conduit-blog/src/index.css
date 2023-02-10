@@ -378,13 +378,18 @@ header h3 {
   color: var(--primary-color);
 }
 header li {
-  color: var(--secondary-color);
   margin: 0 0.5rem;
+}
+header a {
+  color: var(--secondary-color);
 }
 .home-head {
   background-color: var(--primary-color);
   font-weight: 600;
   color: whitesmoke;
+}
+header .active {
+  color: black;
 }
 .popular-tag {
   font-size: 0.8rem;
@@ -409,7 +414,7 @@ header li {
   line-height: 1;
   color: var(--secondary-color);
 }
-.article-card img {
+.author-info img {
   width: 40px;
   border-radius: 50%;
   margin-right: 0.5rem;
@@ -492,4 +497,24 @@ header li {
 .error {
   border-color: rgb(211, 113, 113);
   color: red;
+}
+.article-details-header {
+  background-color: #3c4449;
+  color: white;
+  padding: 1rem 2.2rem;
+}
+.article-details-header a {
+  color: white;
+}
+.article-details .desc {
+  padding: 1.5rem 3rem;
+  line-height: 1.5rem;
+  color: var(--secondary-color);
+}
+.article-details div:last-child a {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+.active-feed {
+  border-bottom: 1px solid green;
 }

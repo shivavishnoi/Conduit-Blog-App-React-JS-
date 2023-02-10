@@ -10,13 +10,19 @@ export function Header() {
 
         <ul className="flex">
           <li>
-            <Link to="/">Home</Link>{' '}
+            <NavLink activeClassName="active" to="/" exact>
+              Home
+            </NavLink>{' '}
           </li>
           <li>
-            <NavLink to="/login">Sign In</NavLink>
+            <NavLink activeClassName="active" to="/login">
+              Sign In
+            </NavLink>
           </li>
           <li>
-            <NavLink to="/register">Sign Up</NavLink>
+            <NavLink activeClassName="active" to="/register">
+              Sign Up
+            </NavLink>
           </li>
         </ul>
       </nav>
