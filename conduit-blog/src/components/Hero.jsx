@@ -6,6 +6,7 @@ export default function Hero() {
   const [selectedTag, setSelectedTag] = useState('');
   const [globalArticles, setGlobalArticles] = useState(null);
   const [selectedTagArticles, setSelectedTagArticles] = useState(null);
+  const [error, setError] = useState('');
   const [offset, setOffset] = useState(0);
 
   const updateSelectedTag = async (tag) => {
@@ -19,20 +20,42 @@ export default function Hero() {
     fetch(
       `https://api.realworld.io/api/articles?tag=${selectedTag}&limit=10&offset=${offset}`
     )
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(res.statusText);
+        }
+        return res.json();
+      })
       .then((data) => {
         setSelectedTagArticles(data);
+      })
+      .catch((err) => {
+        setError('Not able to fetch required data');
       });
   }, [selectedTag, offset]);
 
   useEffect(() => {
     fetch(`https://api.realworld.io/api/articles?limit=10&offset=${offset}`)
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(res.status);
+        }
+        return res.json();
+      })
       .then((data) => {
         setGlobalArticles(data);
+      })
+      .catch((err) => {
+        setError('Not able to fetch required data');
       });
   }, [offset]);
-
+  if (error) {
+    return (
+      <div className="text-center">
+        <p>{error}</p>
+      </div>
+    );
+  }
   return (
     <main>
       <div className="home-head text-center padding-1">

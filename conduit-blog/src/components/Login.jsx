@@ -79,7 +79,7 @@ class Login extends React.Component {
           />
           <span className="error">{this.state.errors.password}</span>
 
-          <input type="submit" value="Sign In" />
+          <input type="submit" value="Sign In" disabled={emailId || password} />
         </form>
       </section>
     );
