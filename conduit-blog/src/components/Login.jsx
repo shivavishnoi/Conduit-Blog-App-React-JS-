@@ -44,7 +44,20 @@ class Login extends React.Component {
   };
   handleSubmit = (e) => {
     e.preventDefault();
-    alert(this.state.emailId + ' ' + this.state.password);
+    fetch('https://conduit.productionready.io/api/users/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        user: {
+          email: this.state.emailId,
+          password: this.state.password,
+        },
+      }),
+    })
+      .then((res) => res.json())
+      .then(console.log);
   };
   render() {
     const { emailId, password } = this.state.errors;

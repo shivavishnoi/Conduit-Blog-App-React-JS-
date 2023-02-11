@@ -25,7 +25,21 @@ export default function Register() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(username, emailId, password);
+    fetch('https://conduit.productionready.io/api/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        user: {
+          username,
+          email: emailId,
+          password,
+        },
+      }),
+    })
+      .then((res) => res.json())
+      .then(console.log);
   };
   const handleInput = ({ target }) => {
     let { name, value } = target;
