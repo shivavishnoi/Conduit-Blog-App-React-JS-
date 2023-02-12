@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Bars } from 'react-loader-spinner';
 import { Link } from 'react-router-dom';
+import { articlesUrl } from '../utils/links';
 export default function ArticleDetails(props) {
   const [article, setArticle] = useState(null);
   const [error, setError] = useState('');
   useEffect(() => {
-    fetch(`https://api.realworld.io/api/articles/${props.match.params.slug}`)
+    fetch(`${articlesUrl}/${props.match.params.slug}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(res.status);

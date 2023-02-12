@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-export default function Register() {
+import { withRouter } from 'react-router-dom';
+import { signupURL } from '../utils/links';
+
+function Register(props) {
   const [username, setUsername] = useState('');
   const [emailId, setEmailId] = useState('');
   const [password, setPassword] = useState('');
@@ -25,7 +28,7 @@ export default function Register() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch('https://conduit.productionready.io/api/users', {
+    fetch(signupURL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -38,8 +41,25 @@ export default function Register() {
         },
       }),
     })
-      .then((res) => res.json())
-      .then(console.log);
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then((err) => {
+            return Promise.reject(err);
+          });
+        }
+        return res.json();
+      })
+      .then((user) => {
+        props.updateUser(user);
+
+        props.history.push('/');
+      })
+      .catch((err) => {
+        setErrors({
+          username: err.errors.username[0],
+          emailId: err.errors.email[0],
+        });
+      });
   };
   const handleInput = ({ target }) => {
     let { name, value } = target;
@@ -112,3 +132,4 @@ export default function Register() {
     </section>
   );
 }
+export default withRouter(Register);

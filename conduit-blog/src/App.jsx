@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import ArticleDetails from './components/ArticleDetails';
 import { Header } from './components/Header';
@@ -5,28 +6,113 @@ import Hero from './components/Hero';
 import Login from './components/Login';
 import PageNotFound from './components/PageNotFound';
 import Register from './components/Register';
-
+import { Bars } from 'react-loader-spinner';
+import NewPost from './components/NewPost';
+import Profile from './components/Profile';
+import Settings from './components/Settings';
 function App() {
-  return (
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
+  const [isVerifying, setIsVerifying] = useState(true);
+
+  useEffect(() => {
+    let storageKey = localStorage['app_user'];
+    if (storageKey) {
+      fetch('https://api.realworld.io/api/user', {
+        method: 'GET',
+        headers: {
+          authorization: `Token ${storageKey}`,
+        },
+      })
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          }
+          return res.json().then((err) => {
+            return Promise.reject;
+            err;
+          });
+        })
+        .then((user) => {
+          updateUser(user);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      setIsVerifying(false);
+    }
+  }, []);
+
+  const updateUser = (userInfo) => {
+    setIsLoggedIn(true);
+    setUser(userInfo);
+    setIsVerifying(false);
+    localStorage.setItem('app_user', userInfo.user.token);
+  };
+  return !isVerifying ? (
     <div className="App">
-      <Header />
+      <Header isLoggedIn={isLoggedIn} user={user} />
+      {isLoggedIn ? (
+        <AuthenticatedUser />
+      ) : (
+        <UnAuthenticatedUser updateUser={updateUser} />
+      )}
+    </div>
+  ) : (
+    <div className="flex justify-center padding-1">
+      <Bars
+        height="80"
+        width="80"
+        color="#4fa94d"
+        ariaLabel="bars-loading"
+        wrapperStyle={{}}
+        wrapperClass=""
+        visible={true}
+      />
+    </div>
+  );
+  function AuthenticatedUser() {
+    return (
       <Switch>
         <Route path="/" exact>
           <Hero />
         </Route>
-        <Route path="/login">
-          <Login />
+        <Route path="/new-post">
+          <NewPost />
         </Route>
-        <Route path="/register">
-          <Register />
+        <Route path="/profile">
+          <Profile />
+        </Route>
+        <Route path="/settings">
+          <Settings />
         </Route>
         <Route path="/articles/:slug" component={ArticleDetails} />
         <Route path="*">
           <PageNotFound />
         </Route>
       </Switch>
-    </div>
-  );
+    );
+  }
+  function UnAuthenticatedUser(props) {
+    return (
+      <Switch>
+        <Route path="/" exact>
+          <Hero />
+        </Route>
+        <Route path="/login">
+          <Login updateUser={props.updateUser} />
+        </Route>
+        <Route path="/register">
+          <Register updateUser={props.updateUser} />
+        </Route>
+        <Route path="/articles/:slug" component={ArticleDetails} />
+        <Route path="*">
+          <PageNotFound />
+        </Route>
+      </Switch>
+    );
+  }
 }
 
 export default App;
