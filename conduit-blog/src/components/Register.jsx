@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-export default function Register() {
+import { withRouter } from 'react-router-dom';
+import { signupURL } from '../utils/links';
+
+function Register(props) {
   const [username, setUsername] = useState('');
   const [emailId, setEmailId] = useState('');
   const [password, setPassword] = useState('');
@@ -25,7 +28,38 @@ export default function Register() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(username, emailId, password);
+    fetch(signupURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        user: {
+          username,
+          email: emailId,
+          password,
+        },
+      }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then((err) => {
+            return Promise.reject(err);
+          });
+        }
+        return res.json();
+      })
+      .then((user) => {
+        props.updateUser(user);
+
+        props.history.push('/');
+      })
+      .catch((err) => {
+        setErrors({
+          username: err.errors.username[0],
+          emailId: err.errors.email[0],
+        });
+      });
   };
   const handleInput = ({ target }) => {
     let { name, value } = target;
@@ -98,3 +132,4 @@ export default function Register() {
     </section>
   );
 }
+export default withRouter(Register);

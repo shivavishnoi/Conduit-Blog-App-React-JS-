@@ -2,10 +2,11 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import { withRouter } from 'react-router-dom';
+import { signinURL } from '../utils/links';
 class Login extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       emailId: '',
       password: '',
@@ -44,7 +45,38 @@ class Login extends React.Component {
   };
   handleSubmit = (e) => {
     e.preventDefault();
-    alert(this.state.emailId + ' ' + this.state.password);
+    fetch(signinURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        user: {
+          email: this.state.emailId,
+          password: this.state.password,
+        },
+      }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then((err) => {
+            return Promise.reject(err);
+          });
+        }
+        return res.json();
+      })
+      .then((user) => {
+        this.props.updateUser(user);
+        this.props.history.push('/');
+      })
+      .catch((err) => {
+        this.setState({
+          errors: {
+            emailId: err.errors['email or password'][0],
+            password: err.errors['email or password'][0],
+          },
+        });
+      });
   };
   render() {
     const { emailId, password } = this.state.errors;
@@ -86,4 +118,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+export default withRouter(Login);

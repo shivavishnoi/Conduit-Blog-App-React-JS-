@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Bars } from 'react-loader-spinner';
+import { tagsUrl } from '../utils/links';
 export default function PopularTags(props) {
   const [tagsData, setTagsData] = useState(null);
   const [error, setError] = useState('');
   useEffect(() => {
-    fetch('https://api.realworld.io/api/tags')
+    fetch(tagsUrl)
       .then((res) => {
         if (!res.ok) {
           throw new Error(res.status);

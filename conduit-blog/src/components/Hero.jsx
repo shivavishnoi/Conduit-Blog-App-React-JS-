@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { NavLink, Route, Switch } from 'react-router-dom';
+import { articlesUrl } from '../utils/links';
 import FeedList from './FeedList';
 import PopularTags from './PopularTags';
 export default function Hero() {
@@ -17,9 +18,7 @@ export default function Hero() {
     setOffset((pageNum - 1) * 10);
   };
   useEffect(() => {
-    fetch(
-      `https://api.realworld.io/api/articles?tag=${selectedTag}&limit=10&offset=${offset}`
-    )
+    fetch(`${articlesUrl}?tag=${selectedTag}&limit=10&offset=${offset}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(res.statusText);
@@ -35,7 +34,7 @@ export default function Hero() {
   }, [selectedTag, offset]);
 
   useEffect(() => {
-    fetch(`https://api.realworld.io/api/articles?limit=10&offset=${offset}`)
+    fetch(`${articlesUrl}?limit=10&offset=${offset}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(res.status);
