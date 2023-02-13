@@ -54,7 +54,7 @@ function App() {
     <div className="App">
       <Header isLoggedIn={isLoggedIn} user={user} />
       {isLoggedIn ? (
-        <AuthenticatedUser />
+        <AuthenticatedUser isLoggedIn={isLoggedIn} user={user} />
       ) : (
         <UnAuthenticatedUser updateUser={updateUser} />
       )}
@@ -72,22 +72,24 @@ function App() {
       />
     </div>
   );
-  function AuthenticatedUser() {
+  function AuthenticatedUser(props) {
     return (
       <Switch>
         <Route path="/" exact>
-          <Hero />
+          <Hero isLoggedIn={props.isLoggedIn} userData={props.user} />
         </Route>
         <Route path="/new-post">
-          <NewPost />
+          <NewPost userData={props.user} />
         </Route>
         <Route path="/profile">
           <Profile />
         </Route>
         <Route path="/settings">
-          <Settings />
+          <Settings userData={props.user} />
         </Route>
-        <Route path="/articles/:slug" component={ArticleDetails} />
+        <Route path="/articles/:slug">
+          <ArticleDetails isLoggedIn={isLoggedIn} />
+        </Route>
         <Route path="*">
           <PageNotFound />
         </Route>
