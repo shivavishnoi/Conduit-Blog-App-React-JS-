@@ -68,12 +68,12 @@ export default function Hero(props) {
     );
   }
   return (
-    <main>
+    <section>
       <div className="home-head text-center padding-1">
         <h1>Conduit</h1>
         <p>A place to Share Knowledge</p>
       </div>
-      <section className="hero flex justify-between container align-start">
+      <div className="hero flex justify-between container align-start">
         <div className="home-feeds flex-68 padding-2">
           <nav>
             <ul className="flex">
@@ -103,8 +103,8 @@ export default function Hero(props) {
           <span>Popular Tags</span>
           <PopularTags updateSelectedTag={updateSelectedTag} />
         </div>
-      </section>
-    </main>
+      </div>
+    </section>
   );
 }
 

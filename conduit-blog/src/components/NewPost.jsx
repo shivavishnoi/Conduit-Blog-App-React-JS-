@@ -37,7 +37,7 @@ export default function NewPost(props) {
         history.push(`/articles/${data.article.slug}`);
       })
       .catch((err) => {
-        console.log(`${err} Error while publishing article`);
+        setErrors(`Error while publishing article`);
       });
   };
   return (

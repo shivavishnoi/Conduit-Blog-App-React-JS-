@@ -32,13 +32,15 @@ function ArticleDetails(props) {
       <div className="article-details-header">
         <h2>{article.slug.split('-').join(' ')}</h2>
         <div className="author-info flex padding-2">
-          <Link>
+          <Link to={`/profile/${article.author.username}`}>
             <img src={article.author.image} />
           </Link>
 
           <div>
             <h6>
-              <Link>{article.author.username} </Link>
+              <Link to={`/profile/${article.author.username}`}>
+                {article.author.username}{' '}
+              </Link>
             </h6>
 
             <span className="date">

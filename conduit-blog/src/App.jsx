@@ -81,7 +81,10 @@ function App() {
         <Route path="/new-post">
           <NewPost userData={props.user} />
         </Route>
-        <Route path="/profile">
+        <Route path="/profile" exact>
+          <Profile userData={props.user} isLoggedIn={props.isLoggedIn} />
+        </Route>
+        <Route path="/profile/:username">
           <Profile />
         </Route>
         <Route path="/settings">
@@ -109,6 +112,9 @@ function App() {
           <Register updateUser={props.updateUser} />
         </Route>
         <Route path="/articles/:slug" component={ArticleDetails} />
+        <Route path="/profile/:username">
+          <Profile />
+        </Route>
         <Route path="*">
           <PageNotFound />
         </Route>

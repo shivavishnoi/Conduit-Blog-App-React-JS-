@@ -309,6 +309,9 @@ html {
 .text-center {
   text-align: center;
 }
+.text-right {
+  text-align: right;
+}
 
 a {
   text-decoration: none;
@@ -406,6 +409,7 @@ header .active {
 .home-feeds li {
   color: var(--primary-color);
   margin-right: 0.5rem;
+  padding-bottom: 0.3rem;
 }
 .home-feeds li:hover {
   cursor: pointer;
@@ -546,4 +550,36 @@ header .active {
   padding: 0.5rem;
   font-size: 1rem;
   border-radius: 5px;
+}
+.logout {
+  width: 50%;
+  margin: 1rem auto;
+}
+.logout button {
+  background-color: none;
+  border: 1px solid rgb(83, 22, 22);
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  color: rgb(83, 22, 22);
+  font-weight: 500;
+  cursor: pointer;
+}
+.profile .head {
+  background-color: #d4e6f0;
+}
+.profile img {
+  border-radius: 50%;
+}
+.profile .head a {
+  margin-right: 3.5rem;
+}
+.profile .head button {
+  cursor: pointer;
+}
+.profile .home-feeds {
+  width: 85%;
+  margin: 0 auto;
+}
+.active-li {
+  border-bottom: 1px solid var(--primary-color);
 }
