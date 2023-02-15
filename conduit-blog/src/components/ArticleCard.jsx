@@ -9,13 +9,15 @@ export default function ArticleCard({ article }) {
       <article className="article-card padding-2">
         <div className="article-card-header flex justify-between padding-3">
           <div className="author-info flex">
-            <Link to=".profile">
+            <Link to={`/profile/${article.author.username}`}>
               <img src={article.author.image} />
             </Link>
 
             <div>
               <h6>
-                <Link to="/profile">{article.author.username} </Link>
+                <Link to={`/profile/${article.author.username}`}>
+                  {article.author.username}{' '}
+                </Link>
               </h6>
 
               <span className="date">

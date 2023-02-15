@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Bars } from 'react-loader-spinner';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { articlesUrl } from '../utils/links';
-export default function ArticleDetails(props) {
+function ArticleDetails(props) {
   const [article, setArticle] = useState(null);
   const [error, setError] = useState('');
   useEffect(() => {
@@ -32,13 +32,15 @@ export default function ArticleDetails(props) {
       <div className="article-details-header">
         <h2>{article.slug.split('-').join(' ')}</h2>
         <div className="author-info flex padding-2">
-          <Link>
+          <Link to={`/profile/${article.author.username}`}>
             <img src={article.author.image} />
           </Link>
 
           <div>
             <h6>
-              <Link>{article.author.username} </Link>
+              <Link to={`/profile/${article.author.username}`}>
+                {article.author.username}{' '}
+              </Link>
             </h6>
 
             <span className="date">
@@ -61,10 +63,14 @@ export default function ArticleDetails(props) {
         <hr />
       </div>
       <div className="text-center padding-2">
-        <p>
-          <Link to="/login">Sign in</Link> or{' '}
-          <Link to="/register">Sign up</Link> to add comments on this article.
-        </p>
+        {!props.isLoggedIn ? (
+          <p>
+            <Link to="/login">Sign in</Link> or{' '}
+            <Link to="/register">Sign up</Link> to add comments on this article.
+          </p>
+        ) : (
+          ''
+        )}
       </div>
     </article>
   ) : (
@@ -81,3 +87,4 @@ export default function ArticleDetails(props) {
     </div>
   );
 }
+export default withRouter(ArticleDetails);
