@@ -10,6 +10,7 @@ import { Bars } from 'react-loader-spinner';
 import NewPost from './components/NewPost';
 import Profile from './components/Profile';
 import Settings from './components/Settings';
+import EditPost from './components/EditPost';
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
@@ -56,7 +57,7 @@ function App() {
       {isLoggedIn ? (
         <AuthenticatedUser isLoggedIn={isLoggedIn} user={user} />
       ) : (
-        <UnAuthenticatedUser updateUser={updateUser} />
+        <UnAuthenticatedUser isLoggedIn={isLoggedIn} updateUser={updateUser} />
       )}
     </div>
   ) : (
@@ -91,7 +92,10 @@ function App() {
           <Settings userData={props.user} />
         </Route>
         <Route path="/articles/:slug">
-          <ArticleDetails isLoggedIn={isLoggedIn} />
+          <ArticleDetails isLoggedIn={props.isLoggedIn} userData={props.user} />
+        </Route>
+        <Route path="/edit-post/:slug" exact>
+          <EditPost userData={props.user} />
         </Route>
         <Route path="*">
           <PageNotFound />
@@ -111,7 +115,9 @@ function App() {
         <Route path="/register">
           <Register updateUser={props.updateUser} />
         </Route>
-        <Route path="/articles/:slug" component={ArticleDetails} />
+        <Route path="/articles/:slug">
+          <ArticleDetails />
+        </Route>
         <Route path="/profile/:username">
           <Profile />
         </Route>

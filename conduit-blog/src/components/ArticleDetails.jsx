@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Bars } from 'react-loader-spinner';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, useHistory, withRouter } from 'react-router-dom';
 import { articlesUrl } from '../utils/links';
+import Comments from './Comments';
 function ArticleDetails(props) {
   const [article, setArticle] = useState(null);
   const [error, setError] = useState('');
+  const history = useHistory();
   useEffect(() => {
     fetch(`${articlesUrl}/${props.match.params.slug}`)
       .then((res) => {
@@ -20,6 +22,25 @@ function ArticleDetails(props) {
         setError('Not able to fetch required data');
       });
   }, []);
+  const deleteArticle = () => {
+    fetch(`${articlesUrl}/${props.match.params.slug}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: `Token ${props.userData.user.token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(res.statusText);
+        }
+      })
+      .then((data) => {
+        history.push('/');
+      })
+      .catch((err) => {
+        setError('Error while deleting article');
+      });
+  };
   if (error) {
     return (
       <div className="text-center">
@@ -46,6 +67,21 @@ function ArticleDetails(props) {
             <span className="date">
               {article.createdAt.split('').slice(0, 10)}
             </span>
+            {props.isLoggedIn ? (
+              article.author.username == props.userData.user.username ? (
+                <div className="buttons">
+                  <Link to={`/edit-post/${article.slug}`}>
+                    <button> Update Article</button>
+                  </Link>
+
+                  <button onClick={deleteArticle}>Delete Article</button>
+                </div>
+              ) : (
+                ''
+              )
+            ) : (
+              ''
+            )}
           </div>
         </div>
       </div>
@@ -69,7 +105,13 @@ function ArticleDetails(props) {
             <Link to="/register">Sign up</Link> to add comments on this article.
           </p>
         ) : (
-          ''
+          <Comments
+            details={{
+              slug: article.slug,
+              userToken: props.userData.user.token,
+              userImage: props.userData.user.image,
+            }}
+          />
         )}
       </div>
     </article>

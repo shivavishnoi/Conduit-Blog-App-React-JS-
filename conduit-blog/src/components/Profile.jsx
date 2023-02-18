@@ -28,7 +28,6 @@ function Profile(props) {
           return res.json();
         })
         .then((data) => {
-          console.log(data);
           setOtherUserData(data);
         })
         .catch((err) => {
