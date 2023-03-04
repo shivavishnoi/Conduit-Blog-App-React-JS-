@@ -1,4 +1,4 @@
-// Login is a class based component because I wanted to brush up concepts of class based components
+// Login is a class based component because I wanted to revise concepts of class based components
 
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -8,8 +8,8 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      emailId: 'tomasi123@gmail.com',
-      password: 'password123',
+      emailId: '',
+      password: '',
       errors: {
         emailId: '',
         password: '',
